@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Quiniela Jornada 12 — Liga MX Clausura 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;600;700;900&display=swap" rel="stylesheet"/>
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{background:#06080e;font-family:'Barlow',sans-serif;color:#fff;min-height:100vh}
+  .bg{position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse 70% 50% at 20% 0%,#0a2a1a44 0%,transparent 60%),radial-gradient(ellipse 70% 50% at 80% 100%,#0a1a2a44 0%,transparent 60%);pointer-events:none}
+  .wrap{position:relative;z-index:1;max-width:520px;margin:0 auto;padding:20px 16px 60px}
+
+  .header{text-align:center;padding:30px 20px 22px;background:linear-gradient(150deg,#071a0f,#051208);border:1px solid #0e3a1e;border-radius:20px;margin-bottom:20px;position:relative;overflow:hidden}
+  .header::before{content:'⚽';position:absolute;font-size:130px;opacity:0.04;top:-15px;right:-15px;transform:rotate(15deg)}
+  .header::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#16a34a,transparent)}
+  .badge{display:inline-block;background:linear-gradient(135deg,#15803d,#16a34a);color:#fff;font-weight:900;font-size:11px;letter-spacing:2.5px;padding:4px 14px;border-radius:20px;margin-bottom:10px}
+  .header h1{font-family:'Bebas Neue',sans-serif;font-size:52px;letter-spacing:6px;background:linear-gradient(90deg,#bbf7d0,#4ade80,#bbf7d0);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1;margin-bottom:5px}
+  .header-sub{font-size:11px;letter-spacing:3px;color:#1a4a2a;font-weight:700;margin-bottom:7px}
+  .header-dates{font-size:14px;color:#4ade80;font-weight:700}
+
+  .prog-wrap{margin-bottom:16px}
+  .prog-track{height:5px;background:#0a1a0e;border-radius:3px;overflow:hidden;margin-bottom:5px}
+  .prog-fill{height:100%;background:linear-gradient(90deg,#15803d,#4ade80);border-radius:3px;width:0%;transition:width .35s ease}
+  .prog-lbl{font-size:11px;color:#1a4a2a;text-align:right;font-weight:600;letter-spacing:.5px}
+
+  .name-sec{margin-bottom:16px}
+  .lbl{display:block;font-size:11px;font-weight:700;letter-spacing:1.5px;color:#1a5a2a;margin-bottom:7px;text-transform:uppercase}
+  .name-inp{width:100%;padding:12px 15px;background:#071a0f;border:1px solid #0e3a1e;border-radius:11px;color:#fff;font-size:15px;font-family:'Barlow',sans-serif;font-weight:600;outline:none;transition:border-color .2s}
+  .name-inp:focus{border-color:#4ade80}
+  .name-inp::placeholder{color:#0e2a18}
+
+  .legend{display:flex;gap:8px;justify-content:center;margin-bottom:10px;flex-wrap:wrap}
+  .leg{font-size:11px;font-weight:700;padding:4px 11px;border-radius:20px;letter-spacing:.5px}
+  .leg-l{background:#052010;color:#22c55e;border:1px solid #22c55e44}
+  .leg-e{background:#1a0e00;color:#f59e0b;border:1px solid #f59e0b44}
+  .leg-v{background:#030f2a;color:#60a5fa;border:1px solid #60a5fa44}
+
+  .day-sep{display:flex;align-items:center;gap:10px;margin:18px 0 9px}
+  .day-lbl{font-family:'Bebas Neue',sans-serif;font-size:12px;letter-spacing:2px;color:#4ade80;white-space:nowrap}
+  .day-line{flex:1;height:1px;background:#0e2a18}
+
+  .matches{display:flex;flex-direction:column;gap:10px;margin-bottom:8px}
+  .card{background:#071a0f;border:1px solid #0e2a18;border-left:4px solid #0e2a18;border-radius:14px;padding:12px 14px;transition:all .2s}
+  .card.pL{border-left-color:#22c55e;box-shadow:0 0 14px #22c55e15}
+  .card.pE{border-left-color:#f59e0b;box-shadow:0 0 14px #f59e0b15}
+  .card.pV{border-left-color:#60a5fa;box-shadow:0 0 14px #60a5fa15}
+  .card-badge{font-size:10px;color:#fbbf24;font-weight:800;letter-spacing:.5px;margin-bottom:7px}
+  .card-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:11px}
+  .card-num{font-size:11px;color:#0e2a18;font-weight:700}
+  .card-time{font-size:11px;color:#166534;font-weight:800;background:#051208;padding:2px 8px;border-radius:6px}
+
+  .teams{display:flex;align-items:center;justify-content:space-between;gap:6px;margin-bottom:11px}
+  .team{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+  .team-nm{font-size:12px;font-weight:800;color:#bbf7d0;text-align:center;line-height:1.1;max-width:90px}
+  .vs-col{display:flex;flex-direction:column;align-items:center;flex-shrink:0}
+  .vs-txt{font-family:'Bebas Neue',sans-serif;font-size:15px;color:#0e2a18;letter-spacing:2px}
+
+  .picks{display:flex;gap:7px}
+  .pbtn{flex:1;padding:9px 2px;background:#051208;border:1px solid #0e2a18;border-radius:9px;color:#1a4a2a;font-size:12px;font-weight:800;font-family:'Barlow',sans-serif;cursor:pointer;transition:all .15s}
+  .pbtn:hover{background:#0a1f10;color:#4a8a5a}
+  .pbtn.aL{background:#052610;border-color:#22c55e;color:#22c55e}
+  .pbtn.aE{background:#1a1000;border-color:#f59e0b;color:#f59e0b}
+  .pbtn.aV{background:#030e24;border-color:#60a5fa;color:#60a5fa}
+
+  .sub-wrap{text-align:center;margin:22px 0 24px}
+  .sub-hint{font-size:12px;color:#f59e0b;margin-bottom:11px;font-weight:600}
+  .sub-btn{width:100%;padding:16px;background:linear-gradient(135deg,#14532d,#15803d,#16a34a);border:none;border-radius:14px;color:#fff;font-size:15px;font-weight:900;font-family:'Bebas Neue',sans-serif;letter-spacing:2px;cursor:pointer;transition:all .2s;box-shadow:0 4px 20px #16a34a33}
+  .sub-btn:disabled{opacity:.3;cursor:not-allowed;box-shadow:none}
+  .sub-btn:not(:disabled):hover{transform:translateY(-1px);box-shadow:0 6px 24px #16a34a55}
+  .footer{text-align:center;font-size:11px;color:#0a1f10;letter-spacing:1.5px;font-weight:600}
+
+  #suc{display:none;animation:fi .4s ease}
+  @keyframes fi{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+  .suc-card{background:#071a0f;border:1px solid #0e3a1e;border-radius:20px;padding:34px 22px;text-align:center;margin-bottom:20px}
+  .trophy{font-size:56px;margin-bottom:10px;display:block}
+  .suc-title{font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:3px;color:#4ade80;margin-bottom:3px}
+  .suc-sub{font-size:15px;color:#1a5a2a;margin-bottom:26px;font-weight:600}
+  .res-grid{display:flex;flex-direction:column;gap:6px;margin-bottom:26px;text-align:left}
+  .res-row{display:flex;justify-content:space-between;align-items:center;background:#051208;padding:8px 11px;border-radius:8px;gap:8px}
+  .res-left{display:flex;align-items:center;gap:5px;flex:1;min-width:0}
+  .res-match{font-size:11px;color:#1a5a2a;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .res-vs{font-size:9px;color:#0e2a18;font-weight:900}
+  .res-pick{font-size:11px;font-weight:800;padding:3px 10px;border-radius:20px;color:#000;flex-shrink:0}
+  .rpL{background:#22c55e}.rpE{background:#f59e0b}.rpV{background:#60a5fa}
+  .rst-btn{padding:11px 28px;background:transparent;border:1px solid #0e3a1e;border-radius:10px;color:#1a5a2a;font-size:13px;font-weight:700;font-family:'Barlow',sans-serif;cursor:pointer}
+  @media(max-width:400px){.header h1{font-size:42px}.team-nm{font-size:11px}}
+</style>
+</head>
+<body>
+<div class="bg"></div>
+<div class="wrap">
+
+  <div id="frm">
+    <div class="header">
+      <div class="badge">CLAUSURA 2026</div>
+      <h1>QUINIELA</h1>
+      <div class="header-sub">JORNADA 12 — LIGA BBVA MX</div>
+      <div class="header-dates">20 · 21 · 22 de Marzo 2026</div>
+    </div>
+    <div class="prog-wrap">
+      <div class="prog-track"><div class="prog-fill" id="pf"></div></div>
+      <span class="prog-lbl" id="pl">0/9 partidos elegidos</span>
+    </div>
+    <div class="name-sec">
+      <label class="lbl" for="nm">👤 Tu nombre</label>
+      <input class="name-inp" type="text" id="nm" placeholder="Escribe tu nombre..." oninput="upd()"/>
+    </div>
+    <div class="legend">
+      <span class="leg leg-l">🏠 L = Gana Local</span>
+      <span class="leg leg-e">🤝 E = Empate</span>
+      <span class="leg leg-v">✈️ V = Gana Visitante</span>
+    </div>
+    <div id="mc"></div>
+    <div class="sub-wrap">
+      <p class="sub-hint" id="sh">⚠️ Ingresa tu nombre para comenzar</p>
+      <button class="sub-btn" id="sb" disabled onclick="doSubmit()">✅ REGISTRAR MI QUINIELA</button>
+    </div>
+    <div class="footer">⚽ Liga BBVA MX · Clausura 2026 · Jornada 12</div>
+  </div>
+
+  <div id="suc">
+    <div class="suc-card">
+      <span class="trophy">🏆</span>
+      <div class="suc-title">¡Quiniela Lista!</div>
+      <div class="suc-sub" id="sn"></div>
+      <div class="res-grid" id="rg"></div>
+      <button class="rst-btn" onclick="doReset()">↩ Nueva Quiniela</button>
+    </div>
+    <div class="footer">⚽ Liga BBVA MX · Clausura 2026 · Jornada 12</div>
+  </div>
+
+</div>
+<script>
+const TEAMS={
+  "Necaxa":      {a:"NEX",bg:"#CC0000",tx:"#FFFFFF",ac:"#000000"},
+  "Tijuana":     {a:"TIJ",bg:"#111111",tx:"#CC0000",ac:"#CC0000"},
+  "Mazatlán":    {a:"MAZ",bg:"#006B9E",tx:"#FFFFFF",ac:"#CC0000"},
+  "Cruz Azul":   {a:"CAZ",bg:"#004F9E",tx:"#FFFFFF",ac:"#AADDFF"},
+  "Atlas":       {a:"ATL",bg:"#6B0000",tx:"#FFDE00",ac:"#FFDE00"},
+  "Querétaro":   {a:"QRO",bg:"#003087",tx:"#FFFFFF",ac:"#BBCCFF"},
+  "San Luis":    {a:"ASL",bg:"#E51937",tx:"#000000",ac:"#FFDE00"},
+  "León":        {a:"LEO",bg:"#006341",tx:"#FFDE00",ac:"#FFDE00"},
+  "Monterrey":   {a:"RAY",bg:"#003591",tx:"#FFFFFF",ac:"#AADDFF"},
+  "Guadalajara": {a:"CHI",bg:"#CC0000",tx:"#FFFFFF",ac:"#003087"},
+  "Pumas":       {a:"PUM",bg:"#FFD700",tx:"#000000",ac:"#003087"},
+  "América":     {a:"AME",bg:"#FFDE00",tx:"#1a1a1a",ac:"#003087"},
+  "Pachuca":     {a:"PAC",bg:"#C8A800",tx:"#000000",ac:"#FFFFFF"},
+  "Toluca":      {a:"TOL",bg:"#CC0000",tx:"#FFFFFF",ac:"#FFEEEE"},
+  "Santos":      {a:"SAN",bg:"#009A44",tx:"#FFFFFF",ac:"#FFDE00"},
+  "Puebla":      {a:"PUE",bg:"#1C3A6A",tx:"#FFFFFF",ac:"#AABBFF"},
+  "Juárez":      {a:"JUA",bg:"#CC5500",tx:"#000000",ac:"#FFEEAA"},
+  "Tigres":      {a:"TIG",bg:"#FFB300",tx:"#1a1a1a",ac:"#003087"},
+};
+
+function shield(name,sz=46){
+  const t=TEAMS[name]||{a:name.substring(0,3).toUpperCase(),bg:"#333",tx:"#fff",ac:"#fff"};
+  const h=Math.round(sz*50/44);
+  const id="s"+name.replace(/\s/g,"_")+sz;
+  return `<svg width="${sz}" height="${h}" viewBox="0 0 44 50" xmlns="http://www.w3.org/2000/svg">
+    <defs><clipPath id="${id}"><polygon points="22,1 43,8 43,30 22,49 1,30 1,8"/></clipPath></defs>
+    <polygon points="22,1 43,8 43,30 22,49 1,30 1,8" fill="${t.bg}" stroke="${t.ac}44" stroke-width="1.5"/>
+    <rect x="-5" y="15" width="54" height="20" fill="${t.ac}" opacity="0.14" clip-path="url(#${id})"/>
+    <text x="22" y="31" text-anchor="middle" font-family="'Bebas Neue',sans-serif" font-size="13" fill="${t.tx}" letter-spacing="0.5">${t.a}</text>
+  </svg>`;
+}
+
+function mini(name){
+  const t=TEAMS[name]||{a:name.substring(0,3).toUpperCase(),bg:"#333",tx:"#fff",ac:"#fff"};
+  return `<svg width="20" height="23" viewBox="0 0 44 50" xmlns="http://www.w3.org/2000/svg">
+    <polygon points="22,1 43,8 43,30 22,49 1,30 1,8" fill="${t.bg}" stroke="${t.ac}55" stroke-width="2"/>
+    <text x="22" y="31" text-anchor="middle" font-family="'Bebas Neue',sans-serif" font-size="13" fill="${t.tx}">${t.a}</text>
+  </svg>`;
+}
+
+const DAYS=[
+  {lbl:"VIERNES 20 DE MARZO",ms:[
+    {id:1,l:"Necaxa",   v:"Tijuana",     h:"19:00",b:null},
+    {id:2,l:"Mazatlán", v:"Cruz Azul",   h:"21:06",b:null},
+  ]},
+  {lbl:"SÁBADO 21 DE MARZO",ms:[
+    {id:3,l:"Atlas",      v:"Querétaro",   h:"17:00",b:null},
+    {id:4,l:"San Luis",   v:"León",        h:"19:00",b:null},
+    {id:5,l:"Monterrey",  v:"Guadalajara", h:"19:00",b:null},
+    {id:6,l:"Pumas",      v:"América",     h:"21:00",b:"⚡ Duelo capitalino"},
+  ]},
+  {lbl:"DOMINGO 22 DE MARZO",ms:[
+    {id:7,l:"Pachuca", v:"Toluca",  h:"17:00",b:null},
+    {id:8,l:"Santos",  v:"Puebla",  h:"17:00",b:null},
+    {id:9,l:"Juárez",  v:"Tigres",  h:"19:00",b:null},
+  ]},
+];
+
+const ALL=DAYS.flatMap(d=>d.ms);
+const picks={};
+const LBLS={L:"Gana Local",E:"Empate",V:"Gana Visitante"};
+const EMJS={L:"🏠",E:"🤝",V:"✈️"};
+
+function build(){
+  const mc=document.getElementById('mc');
+  let idx=1;
+  DAYS.forEach(day=>{
+    const sep=document.createElement('div');
+    sep.className='day-sep';
+    sep.innerHTML=`<div class="day-line"></div><div class="day-lbl">${day.lbl}</div><div class="day-line"></div>`;
+    mc.appendChild(sep);
+    const grp=document.createElement('div');
+    grp.className='matches';
+    day.ms.forEach(m=>{
+      const c=document.createElement('div');
+      c.className='card';c.id='c'+m.id;
+      c.innerHTML=`
+        ${m.b?`<div class="card-badge">${m.b}</div>`:''}
+        <div class="card-head">
+          <span class="card-num">#${idx++}</span>
+          <span class="card-time">⏰ ${m.h}</span>
+        </div>
+        <div class="teams">
+          <div class="team">${shield(m.l)}<span class="team-nm">${m.l}</span></div>
+          <div class="vs-col"><span class="vs-txt">VS</span></div>
+          <div class="team">${shield(m.v)}<span class="team-nm">${m.v}</span></div>
+        </div>
+        <div class="picks">
+          <button class="pbtn" id="b${m.id}L" onclick="pick(${m.id},'L')">🏠 Local</button>
+          <button class="pbtn" id="b${m.id}E" onclick="pick(${m.id},'E')">🤝 Empate</button>
+          <button class="pbtn" id="b${m.id}V" onclick="pick(${m.id},'V')">✈️ Visita</button>
+        </div>`;
+      grp.appendChild(c);
+    });
+    mc.appendChild(grp);
+  });
+}
+
+function pick(id,opt){
+  const prev=picks[id];
+  if(prev)document.getElementById('b'+id+prev).classList.remove('a'+prev);
+  picks[id]=opt;
+  document.getElementById('b'+id+opt).classList.add('a'+opt);
+  document.getElementById('c'+id).className='card p'+opt;
+  upd();
+}
+
+function upd(){
+  const nm=document.getElementById('nm').value.trim();
+  const cnt=Object.keys(picks).length;
+  document.getElementById('pf').style.width=(cnt/ALL.length*100)+'%';
+  document.getElementById('pl').textContent=cnt+'/'+ALL.length+' partidos elegidos';
+  const btn=document.getElementById('sb');
+  const hint=document.getElementById('sh');
+  if(!nm){hint.textContent='⚠️ Ingresa tu nombre';hint.style.display='block';btn.disabled=true;}
+  else if(cnt<ALL.length){hint.textContent='⚠️ Faltan '+(ALL.length-cnt)+' partido'+(ALL.length-cnt>1?'s':'');hint.style.display='block';btn.disabled=true;}
+  else{hint.style.display='none';btn.disabled=false;}
+}
+
+function doSubmit(){
+  const nm=document.getElementById('nm').value.trim();
+  document.getElementById('sn').textContent='¡Buena suerte, '+nm+'! 🤞';
+  const rg=document.getElementById('rg');
+  rg.innerHTML='';
+  ALL.forEach(m=>{
+    const p=picks[m.id];
+    const row=document.createElement('div');
+    row.className='res-row';
+    row.innerHTML='<div class="res-left">'+mini(m.l)+'<span class="res-vs">vs</span>'+mini(m.v)+'<span class="res-match">'+m.l+' — '+m.v+'</span></div><span class="res-pick rp'+p+'">'+EMJS[p]+' '+LBLS[p]+'</span>';
+    rg.appendChild(row);
+  });
+  document.getElementById('frm').style.display='none';
+  document.getElementById('suc').style.display='block';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function doReset(){
+  Object.keys(picks).forEach(k=>delete picks[k]);
+  document.getElementById('nm').value='';
+  document.getElementById('mc').innerHTML='';
+  build();upd();
+  document.getElementById('suc').style.display='none';
+  document.getElementById('frm').style.display='block';
+  document.getElementById('sh').style.display='block';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+build();
+</script>
+</body>
+</html>
